@@ -133,7 +133,7 @@ server {
 					body=ngx.var.response_body
 				}
 				ngx.print(require "cjson".encode{request=req, response=resp})
-			}
+			end
 		}
 		proxy_pass http://app;
 	}
