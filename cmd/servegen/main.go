@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-
-	"golang.org/x/xerrors"
 )
 
 func main() {
@@ -27,15 +25,15 @@ func run() error {
 	}
 
 	if err := genService(*serviceName); err != nil {
-		return xerrors.Errorf("failed to generate service file: %w", err)
+		return fmt.Errorf("failed to generate service file: %w", err)
 	}
 
 	if err := genSocket(*serviceName); err != nil {
-		return xerrors.Errorf("failed to generate socket file: %w", err)
+		return fmt.Errorf("failed to generate socket file: %w", err)
 	}
 
 	if err := genNginxConf(*serviceName); err != nil {
-		return xerrors.Errorf("failed to generate nginx config: %w", err)
+		return fmt.Errorf("failed to generate nginx config: %w", err)
 	}
 
 	return nil
@@ -44,7 +42,7 @@ func run() error {
 func genService(serviceName string) error {
 	f, err := os.Create(serviceName + ".service")
 	if err != nil {
-		return xerrors.Errorf("create file: %w", err)
+		return fmt.Errorf("create file: %w", err)
 	}
 	defer f.Close()
 
@@ -67,7 +65,7 @@ WantedBy=multi-user.target
 func genSocket(serviceName string) error {
 	f, err := os.Create(serviceName + ".socket")
 	if err != nil {
-		return xerrors.Errorf("create file: %w", err)
+		return fmt.Errorf("create file: %w", err)
 	}
 	defer f.Close()
 
@@ -86,7 +84,7 @@ WantedBy=sockets.target
 func genNginxConf(serviceName string) error {
 	f, err := os.Create(serviceName + ".conf")
 	if err != nil {
-		return xerrors.Errorf("create file: %w", err)
+		return fmt.Errorf("create file: %w", err)
 	}
 	defer f.Close()
 
